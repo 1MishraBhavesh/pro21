@@ -52,7 +52,21 @@ function draw() {
     state="end";
   }
 }
+  if (hasCollided(bullet,wall)){
+    bullet.velocityX=0;
+    var damage=0.5*weight*speed*speed/(thickness *thickness *thickness);
 
+    if(damage>10)
+    {
+      wall.shapeColor=color(255,0,0);
+    }
+
+    if(damage<10)
+    {
+      wall.shapeColor=color(0,255,0)
+    }
+
+  }
   if(state==="end") {
 
     if(damage>=10) {
@@ -70,7 +84,7 @@ function draw() {
 
     textSize(25);
     text("Rating: "+rating,1000,50);
-    text("Damage: "+damage,800,50);
+    text("Damage: "+damage,800,100);
 
     text("Press 'R' to reset",1200,50);
     if(keyDown("r")) {
@@ -87,4 +101,13 @@ function reset() {
   state="pre";
   bullet.x=50;
   wall.shapeColor=color(127,127,127);
+}
+
+function hasCollided(lbullet,lwall){
+   bulletRightEdge=lbullet.x +lbullet.width;
+   wallLeftEdge=lwall.x;
+   if(bulletRightEdge>=wallLeftEdge){
+     return true
+   }
+   return false;
 }
